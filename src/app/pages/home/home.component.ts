@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { OlympicDataService, GlobalStats } from '../../services/olympic-data.service';
+import { DataService, GlobalStats } from '../../services/data.service';
 
 @Component({
 	selector: 'app-home',
@@ -19,11 +19,11 @@ export class HomeComponent implements OnInit {
 
 	constructor(
 		private readonly router: Router,
-		private readonly olympicDataService: OlympicDataService
+		private readonly dataService: DataService
 	) {}
 
 	ngOnInit(): void {
-		this.olympicDataService.getGlobalStats().subscribe({
+		this.dataService.getGlobalStats().subscribe({
 			next: (stats: GlobalStats) => {
 				this.totalCountries = stats.totalCountries;
 				this.totalJOs = stats.totalJOs;
@@ -34,7 +34,10 @@ export class HomeComponent implements OnInit {
 				);
 			},
 			error: (error: HttpErrorResponse) => {
-				console.error('Erreur lors de la récupération des statistiques', error);
+				console.error(
+					'Erreur lors de la récupération des statistiques',
+					error
+				);
 				this.error = error.message;
 			},
 		});

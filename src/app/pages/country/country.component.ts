@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of, Subscription, switchMap } from 'rxjs';
-import { OlympicDataService, CountryDetails } from '../../services/olympic-data.service';
+import { DataService, CountryDetails } from '../../services/data.service';
 
 @Component({
 	selector: 'app-country',
@@ -10,22 +10,21 @@ import { OlympicDataService, CountryDetails } from '../../services/olympic-data.
 	styleUrls: ['./country.component.scss'],
 })
 export class CountryComponent implements OnInit, OnDestroy {
-	public titlePage: string = '';
-	public totalEntries: number = 0;
-	public totalMedals: number = 0;
-	public totalAthletes: number = 0;
-	public error: string = '';
+	titlePage: string = '';
+	totalEntries: number = 0;
+	totalMedals: number = 0;
+	totalAthletes: number = 0;
+	error: string = '';
 
-	// données pour le graphique
-	public chartYears: (number | string)[] = [];
-	public chartMedals: number[] = [];
+	chartYears: (number | string)[] = [];
+	chartMedals: number[] = [];
 
 	private subscription?: Subscription;
 
 	constructor(
 		private readonly route: ActivatedRoute,
 		private readonly router: Router,
-		private readonly olympicDataService: OlympicDataService
+		private readonly dataService: DataService
 	) {}
 
 	ngOnInit(): void {
@@ -34,16 +33,15 @@ export class CountryComponent implements OnInit, OnDestroy {
 				switchMap((params: ParamMap) => {
 					const countryName = params.get('countryName');
 					if (!countryName) {
-						this.error = 'No country selected';
+						this.router.navigate(['/not-found']);
 						return of<CountryDetails | null>(null);
 					}
-					return this.olympicDataService.getCountryDetails(countryName);
+					return this.dataService.getCountryDetails(countryName);
 				})
 			)
 			.subscribe({
 				next: (details: CountryDetails | null) => {
 					if (!details) {
-						this.error = 'Country not found';
 						this.router.navigate(['/not-found']);
 						return;
 					}
@@ -58,7 +56,7 @@ export class CountryComponent implements OnInit, OnDestroy {
 				},
 				error: (err: HttpErrorResponse) => {
 					console.error('Erreur lors du chargement du pays', err);
-					this.error = err.message;
+					this.router.navigate(['/not-found']);
 				},
 			});
 	}
