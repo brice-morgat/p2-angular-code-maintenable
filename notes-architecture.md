@@ -29,3 +29,56 @@
 - **Constat :** Les objets ne sont pas modélisés avec des interfaces, et `any` est utilisé à plusieurs endroits.
 - **Commentaire :** On perd les avantages de TypeScript (typage, autocomplétion, sécurité).
 - **Piste :** Créer un dossier `app/models` avec des interfaces (ex. `Country`, `OlympicResult`, etc.) et remplacer les `any` par ces types.
+
+
+
+
+## Proposition d’architecture front-end
+
+### 1. Objectif
+
+Séparer clairement :
+- l’accès aux données,
+- la logique métier (calculs, agrégations),
+- la présentation (composants / pages).
+
+Tout doit passer par un **service singleton** et des **modèles typés**.
+
+
+### Pourquoi utiliser le pattern Singleton pour les services ?
+
+On utilise le pattern **Singleton** pour les services afin de :
+
+- Avoir **une seule instance partagée** dans toute l’application.
+- Centraliser l’**accès aux données** (JSON aujourd’hui, API REST demain).
+- **Partager un état commun** (cache, données déjà chargées) entre plusieurs composants.
+- Éviter les **incohérences** et les duplications de logique.
+- Améliorer les **performances** en ne recréant pas le service à chaque fois.
+
+En Angular, cela se fait via `providedIn: 'root'`.
+
+---
+
+### 2. Nouvelle structure de dossiers
+
+```text
+src/app/
+  ├── models/
+  │   ├── participation.model.ts
+  │   └── country.model.ts
+  ├── services/
+  │   └── olympic-data.service.ts
+  ├── pages/
+  │   ├── home/
+  │   │   ├── home.component.ts / .html / .scss
+  │   ├── country/
+  │   │   ├── country.component.ts / .html / .scss
+  │   └── not-found/
+  │       ├── not-found.component.ts / .html / .scss
+  ├── components/
+  │   ├── medals-chart.component.ts / .html / .scss
+  │   └── country-card.component.ts / .html / .scss 
+  ├── app-routing.module.ts
+  └── app.module.ts
+  ```
+  
