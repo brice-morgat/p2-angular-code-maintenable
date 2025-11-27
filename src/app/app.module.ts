@@ -6,9 +6,20 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CountryComponent } from "./pages/country/country.component";
+import { CountryCardComponent } from './components/country-card/country-card.component';
+import { MedalChartComponent } from './components/medal-chart/medal-chart.component';
+import { MedalCountryChartComponent } from './components/medal-country-chart/medal-country-chart.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NotFoundComponent, CountryComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    CountryCardComponent,
+    MedalChartComponent,
+    MedalCountryChartComponent,
+    NotFoundComponent,
+    CountryComponent
+  ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent],
