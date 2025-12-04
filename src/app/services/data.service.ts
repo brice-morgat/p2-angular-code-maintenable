@@ -28,7 +28,7 @@ export class DataService {
 	constructor(private readonly olympicDataService: OlympicDataService) {}
 
 	/**
-	 * Données prêtes pour la home :
+	 * Données pour la home :
 	 * - nb de pays
 	 * - nb de JO distincts
 	 * - total de médailles par pays
@@ -62,7 +62,7 @@ export class DataService {
 	}
 
 	/**
-	 * Données prêtes pour la page Country :
+	 * Données pour la page Country :
 	 * - stats globales du pays
 	 * - séries pour le graphique
 	 */

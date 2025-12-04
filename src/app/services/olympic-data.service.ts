@@ -22,7 +22,7 @@ export class OlympicDataService {
 	constructor(private readonly http: HttpClient) {}
 
 	/**
-	 * Données brutes depuis le JSON (demain : API REST)
+	 * Données brutes depuis le JSON
 	 */
 	getOlympics(): Observable<Country[]> {
 		return this.olympics$;

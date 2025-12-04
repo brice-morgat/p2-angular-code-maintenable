@@ -1,5 +1,7 @@
+import { CommonModule } from '@angular/common';
 import {
 	AfterViewInit,
+	ChangeDetectionStrategy,
 	Component,
 	ElementRef,
 	EventEmitter,
@@ -13,9 +15,12 @@ import {
 import Chart from 'chart.js/auto';
 
 @Component({
-	selector: 'app-country-chart',
+	selector: 'app-medal-country-chart',
 	templateUrl: './medal-country-chart.component.html',
 	styleUrls: ['./medal-country-chart.component.scss'],
+	standalone: true,
+	imports: [CommonModule],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MedalCountryChartComponent
 	implements AfterViewInit, OnChanges, OnDestroy

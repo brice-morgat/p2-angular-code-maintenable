@@ -1,13 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of, Subscription, switchMap } from 'rxjs';
 import { DataService, CountryDetails } from '../../services/data.service';
+import { CommonModule } from '@angular/common';
+import { CountryCardComponent } from 'src/app/components/country-card/country-card.component';
+import { MedalChartComponent } from 'src/app/components/medal-chart/medal-chart.component';
 
 @Component({
 	selector: 'app-country',
 	templateUrl: './country.component.html',
 	styleUrls: ['./country.component.scss'],
+	standalone: true,
+	imports: [CommonModule, RouterLink, CountryCardComponent, MedalChartComponent],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CountryComponent implements OnInit, OnDestroy {
 	titlePage: string = '';

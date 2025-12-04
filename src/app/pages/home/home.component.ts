@@ -1,12 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DataService, GlobalStats } from '../../services/data.service';
+import { CommonModule } from '@angular/common';
+import { MedalCountryChartComponent } from 'src/app/components/medal-country-chart/medal-country-chart.component';
 
 @Component({
 	selector: 'app-home',
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss'],
+	imports: [CommonModule, MedalCountryChartComponent],
+	standalone: true,
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
 	public totalCountries: number = 0;
@@ -19,6 +24,7 @@ export class HomeComponent implements OnInit {
 
 	constructor(
 		private readonly router: Router,
+		private cdr: ChangeDetectorRef,
 		private readonly dataService: DataService
 	) {}
 
@@ -32,6 +38,7 @@ export class HomeComponent implements OnInit {
 				this.chartMedalsByCountry = stats.medalsByCountry.map(
 					(m) => m.totalMedals
 				);
+				this.cdr.markForCheck();
 			},
 			error: (error: HttpErrorResponse) => {
 				console.error(

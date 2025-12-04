@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Input,
@@ -14,6 +15,8 @@ import Chart from 'chart.js/auto';
   selector: 'app-medal-chart',
   templateUrl: './medal-chart.component.html',
   styleUrls: ['./medal-chart.component.scss'],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MedalChartComponent
   implements AfterViewInit, OnChanges, OnDestroy
