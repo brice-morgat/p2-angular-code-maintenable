@@ -5,16 +5,20 @@ export const appRoutes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./pages/home/home.component').then(m => m.HomeComponent),
+      import('./pages/home/home.component').then((m) => m.HomeComponent),
   },
   {
-    path: 'country/:countryName',
+    path: 'country/:id',
     loadComponent: () =>
-      import('./pages/country/country.component').then(m => m.CountryComponent),
+      import('./pages/country/country.component').then(
+        (m) => m.CountryComponent
+      ),
   },
   {
     path: '**',
     loadComponent: () =>
-      import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent),
+      import('./pages/not-found/not-found.component').then(
+        (m) => m.NotFoundComponent
+      ),
   },
 ];
