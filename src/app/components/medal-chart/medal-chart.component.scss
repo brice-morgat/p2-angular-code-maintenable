@@ -1,0 +1,41 @@
+:host {
+	display: block;
+	width: 100%;
+}
+
+.wrapper-container {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	padding: 1rem;
+	box-sizing: border-box;
+}
+
+.container {
+	width: min(100%, 900px); // 900px max, sinon 100% sur petits écrans
+}
+
+.chart-wrapper {
+	position: relative;
+	width: 100%;
+	height: clamp(220px, 35vh, 420px); // min 220px, idéal ~35vh, max 420px
+}
+
+canvas {
+	display: block;
+	width: 100% !important;
+	height: 100% !important;
+}
+
+h2 {
+	text-align: center;
+	color: gray;
+	margin-top: 0.75rem;
+	font-size: clamp(1rem, 2.5vw, 1.25rem);
+}
+
+@media (max-width: 768px) {
+	.wrapper-container {
+		padding: 0.75rem;
+	}
+}

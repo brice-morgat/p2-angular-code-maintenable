@@ -1,0 +1,22 @@
+:host {
+	display: block;
+	width: 100%;
+}
+
+/* Le parent qui donne une vraie "height" à Chart.js */
+.chart-wrapper {
+	position: relative;
+	width: 100%;
+
+	/* Pie chart = plutôt carré : on donne une hauteur qui s’adapte */
+	height: clamp(240px, 40vw, 420px);
+
+	/* Optionnel : limite la largeur si tu veux éviter un énorme disque sur desktop */
+	margin: 0 auto;
+}
+
+canvas {
+	display: block;
+	width: 100% !important;
+	height: 100% !important;
+}
