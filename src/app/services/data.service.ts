@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 import { Country, Participation } from '../models';
 import { OlympicDataService } from './olympic-data.service';
 
@@ -70,6 +70,7 @@ export class DataService {
    */
   getCountryDetails(countryId: string): Observable<CountryDetails | null> {
     return this.olympicDataService.getOlympics().pipe(
+      filter((countries: Country[]) => countries.length > 0),
       map((countries: Country[]) => {
         const country = countries.find(
           (c: Country) => c.id.toString() === countryId

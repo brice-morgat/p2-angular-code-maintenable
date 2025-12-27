@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, catchError, shareReplay, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 import { Country } from '../models';
 
 @Injectable({
@@ -9,22 +9,31 @@ import { Country } from '../models';
 export class OlympicDataService {
 	private readonly olympicUrl = './assets/mock/olympic.json';
 
-	private readonly olympics$: Observable<Country[]> = this.http
-		.get<Country[]>(this.olympicUrl)
-		.pipe(
-			shareReplay(1),
-			catchError((error: HttpErrorResponse) => {
-				console.error('Erreur lors du chargement des données olympiques', error);
-				return throwError(() => error);
-			})
-		);
+	private readonly olympicsSubject = new BehaviorSubject<Country[]>([]);
+	private readonly olympics$ = this.olympicsSubject.asObservable();
 
-	constructor(private readonly http: HttpClient) {}
+	constructor(private readonly http: HttpClient) {
+		this.loadOlympics();
+	}
 
 	/**
-	 * Données brutes depuis le JSON
+	 * Donnees brutes depuis le JSON
 	 */
 	getOlympics(): Observable<Country[]> {
 		return this.olympics$;
+	}
+
+	private loadOlympics(): void {
+		this.http
+			.get<Country[]>(this.olympicUrl)
+			.pipe(
+				catchError((error: HttpErrorResponse) => {
+					console.error('Erreur lors du chargement des donnees olympiques', error);
+					return throwError(() => error);
+				})
+			)
+			.subscribe({
+				next: (countries: Country[]) => this.olympicsSubject.next(countries),
+			});
 	}
 }

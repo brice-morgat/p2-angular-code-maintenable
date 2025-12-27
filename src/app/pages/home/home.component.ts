@@ -2,10 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 import { DataService, GlobalStats } from '../../services/data.service';
 import { CommonModule } from '@angular/common';
 import { MedalCountryChartComponent } from 'src/app/components/medal-country-chart/medal-country-chart.component';
@@ -18,7 +20,7 @@ import { MedalCountryChartComponent } from 'src/app/components/medal-country-cha
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   public totalCountries: number = 0;
   public totalJOs: number = 0;
   public error: string = '';
@@ -28,6 +30,7 @@ export class HomeComponent implements OnInit {
   public chartMedalsByCountry: number[] = [];
 
   public stats: GlobalStats | undefined;
+  private subscription?: Subscription;
   constructor(
     private readonly router: Router,
     private cdr: ChangeDetectorRef,
@@ -35,7 +38,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dataService.getGlobalStats().subscribe({
+    this.subscription = this.dataService.getGlobalStats().subscribe({
       next: (stats: GlobalStats) => {
         this.totalCountries = stats.totalCountries;
         this.totalJOs = stats.totalJOs;
@@ -52,6 +55,10 @@ export class HomeComponent implements OnInit {
         this.error = error.message;
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
   onCountrySelected(countryName: string): void {

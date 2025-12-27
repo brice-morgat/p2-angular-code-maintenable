@@ -63,7 +63,7 @@ export class MedalChartComponent
       },
       options: {
         responsive: true,
-        aspectRatio: 2.5,
+        maintainAspectRatio: false
       },
     });
   }

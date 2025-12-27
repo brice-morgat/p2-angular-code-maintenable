@@ -1,6 +1,8 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ChangeDetectorRef,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -25,7 +27,7 @@ import { MedalChartComponent } from 'src/app/components/medal-chart/medal-chart.
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CountryComponent implements OnInit, OnDestroy {
+export class CountryComponent implements OnInit, AfterViewInit, OnDestroy {
   titlePage: string = '';
   totalEntries: number = 0;
   totalMedals: number = 0;
@@ -40,7 +42,8 @@ export class CountryComponent implements OnInit, OnDestroy {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly dataService: DataService
+    private readonly dataService: DataService,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +60,7 @@ export class CountryComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (details: CountryDetails | null) => {
+          console.log(details)
           if (!details) {
             this.router.navigate(['/not-found']);
             return;
@@ -69,12 +73,17 @@ export class CountryComponent implements OnInit, OnDestroy {
 
           this.chartYears = details.years;
           this.chartMedals = details.medals;
+          this.cdr.markForCheck();
         },
         error: (err: HttpErrorResponse) => {
           console.error('Erreur lors du chargement du pays', err);
           this.router.navigate(['/not-found']);
         },
       });
+  }
+
+  ngAfterViewInit(): void {
+    
   }
 
   ngOnDestroy(): void {
