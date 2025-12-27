@@ -4,6 +4,16 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Don't forget to install your node_modules before starting (`npm install`).
 
+## Clone and install
+
+1. Clone the GitLab repo via HTTPS or SSH: `git clone https://github.com/brice-morgat/p2-angular-code-maintenable.git` then `cd olympic-games-starter`.
+2. Install a compatible Node.js LTS version (>= 18.19.x or 20.11.x recommended). You can:
+   - Download the installer from https://nodejs.org/ (choose LTS).
+   - Or use nvm: `nvm install 20 && nvm use 20` (nvm-windows: https://github.com/coreybutler/nvm-windows).
+   Then check with `node -v` that the version is >= 18.19.
+3. Install project dependencies: `npm install`.
+4. Start the dev server: `npm start` or `ng serve`.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
